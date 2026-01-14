@@ -1,57 +1,51 @@
-# Forecasting-S&P500-Direction
+# Forecasting Stock Price Direction 
 
-## Project Overview
-Financial markets are characterized by high noise, non-stationarity, and strong influence from macroeconomic and behavioral factors. This project simplifies the complex problem of price level prediction into a binary classification of price direction.
+This project aims to build a robust machine learning ensemble system to predict the daily direction of stock price movements (Binary Classification: Up/Down). By combining technical analysis indicators with macroeconomic data and sentiment analysis, the model seeks to achieve a stable edge in financial forecasting.
 
-The core research question is: **Does combining simple machine learning models with diverse data sources (technical, macro, and calendar) provide a statistical advantage over random guessing?**.
+## Project Goal
+The primary objective is to predict whether the closing price of an asset (e.g., MSFT, AAPL, GOOGL) on day $t+1$ will be higher (**1**) or lower (**0**) than on day $t$. The project tests the hypothesis that a **Majority Voting Ensemble** of diverse classifiers can outperform individual "weak" learners.
 
-## Problem Definition
-  **Task Type:** Binary Classification.
-  **Time Interval:** Daily.
-  **Target Variable:** $y_{t+1}=1$ if $Close_{t+1} > Close_{t}$, otherwise 0.
-  **Base Instrument:** SPY ETF (S&P 500) due to high liquidity and lower noise.
-  **Success Metric:** Achieve accuracy between 52-55% on test data.
+## Methodology & Pipeline
 
-## Data & Features
-The model utilizes 10-15 years of historical data from multiple sources:
+### 1. Data Sources & Integration
+We utilize a multi-dimensional approach to data:
+* **Market Data (OHLCV):** Historical prices sourced via `yfinance`.
+* **Technical Indicators:** Calculations of RSI, MACD, Bollinger Bands, and Moving Averages using `pandas_ta`.
+* **Macroeconomic Indicators:** Integration of VIX (Fear Index), Treasury Yields, and Interest Rates (FRED data).
+* **Sentiment Analysis:** Processing financial news/sentiment using the `vaderSentiment` library.
 
-### 1. Market Data (yfinance)
-* OHLCV data and technical indicators.
-* Features: RSI, MACD, SMA (50/200), Historical Volatility, and Bollinger Bands.
+### 2. Feature Engineering
+* Logarithmic returns for stationarity.
+* Standardization of features using `StandardScaler`.
+* Correlation analysis (Heatmaps) to identify and remove redundant features.
 
-### 2. Macroeconomic Data (FRED)
-* Fed Funds Rate, 10Y and 2Y Bond Yields, and the 10Y-2Y Spread.
-* VIX Index and US Dollar Index (DXY).
-
-### 3. Calendar & Event Features
-* Day of the week (one-hot encoding) and Month.
-* Anomalies: "Sell in May" effect and "Santa Claus Rally".
-* Event-based: FOMC meeting days and US Election years.
-
-##  Machine Learning Architecture
-The project implements an **Ensemble Learning** strategy using a `VotingClassifier` with **Majority Voting (hard)**.
-
-| Model | Justification |
-| :--- | :--- |
-| **Logistic Regression (L2)** | Base model, high interpretability. |
-| **Random Forest (shallow)** | Capturing non-linearities. |
-| **SVM (RBF)** | Handling periods of high volatility. |
-| **Naive Bayes** | Efficient for binary and event features. |
-
-## Validation & Methodology
-To ensure methodological correctness and prevent **Data Leakage**, we use:
-  **Walk-Forward Validation:** Sliding training window with no data shuffling to simulate real-world usage.
-  **Evaluation Metrics:** Accuracy (primary), F1-score, and Confusion Matrix.
-  **Benchmarks:** Comparison against "Coin Flip" and "Always Up" strategies.
-
-##  Tech Stack
-* Will be soon
-
-##  Limitations
-* No transaction costs included.
-* Market non-stationarity and "Black Swan" events.
-* Accuracy does not always equal profitability.
+### 3. Machine Learning Strategy (In Progress)
+The core of the project is an **Ensemble Strategy** consisting of:
+* **Model A (Linear):** Logistic Regression with L2 regularization (Current Baseline).
+* **Model B (Tree-based):** Random Forest with limited `max_depth` to prevent overfitting.
+* **Model C (Distance-based):** SVM (Support Vector Machine) with RBF kernel.
+* **Model D (Boosting):** XGBoost/LightGBM for capturing non-linear patterns.
+* **Final Decision:** `VotingClassifier` (Hard/Soft voting) from `scikit-learn`.
 
 
 
+### 4. Validation & Testing
+* **Walk-Forward Validation:** Ensuring no data leakage by maintaining chronological order (no shuffling).
+* **Metrics:** Accuracy, F1-Score, and Confusion Matrix analysis.
 
+## Current Status
+The project is currently in the **Baseline & Data Engineering** phase:
+- [x] Data collection script for major tech tickers (AAPL, MSFT, GOOGL).
+- [x] Integration of Technical Indicators and VIX data.
+- [x] Implementation of the Baseline Logistic Regression model.
+- [ ] Development of individual ensemble members (RF, SVM, XGBoost).
+- [ ] Final Voting Classifier implementation.
+- [ ] Backtesting and result visualization.
+
+## Technology Stack
+* **Language:** Python 3.x
+* **Data Handling:** `pandas`, `numpy`
+* **ML Libraries:** `scikit-learn`, `xgboost`
+* **Financial Tools:** `yfinance`, `pandas_ta`
+* **NLP:** `vaderSentiment`
+* **Visualization:** `matplotlib`, `seaborn`
