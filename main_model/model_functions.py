@@ -138,59 +138,211 @@ def best_features(data_dict, tickers, statistics):
 
 #### MODEL TRAINING
 
-def model_train(tickers, statistics, feature_dict):
-    result_dict = {}
+def build_ensemble_model():
+    lr_pipeline = Pipeline([
+        ("scaler", StandardScaler()),
+        ("lr", LogisticRegression(max_iter=2000, random_state=42))
+    ])
 
-    for i, share in enumerate(tickers):
-        df = get_target(data_dict[share], share)
-        features = [col for col in df.columns if col not in ['Target', 'index', 'DATE']]
+    rf_pipeline = Pipeline([
+        ("scaler", StandardScaler()),
+        ("rf", RandomForestClassifier(
+            n_estimators=100,
+            max_depth=4,
+            min_samples_leaf=10,
+            random_state=42,
+            n_jobs=-1
+        ))
+    ])
 
-        X = df[features]
-        y = df['Target']
-        result_dict[share] = {}
+    svm_pipeline = Pipeline([
+        ("scaler", StandardScaler()),
+        ("svc", SVC(
+            kernel="rbf",
+            C=1.0,
+            gamma="scale",
+            probability=True,
+            random_state=42
+        ))
+    ])
 
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, shuffle=False)
+    xgb_pipeline = Pipeline([
+        ("scaler", StandardScaler()),
+        ("xgb", XGBClassifier(
+            n_estimators=50,
+            max_depth=3,
+            learning_rate=0.1,
+            random_state=42,
+            n_jobs=-1,
+            eval_metric="logloss"
+        ))
+    ])
 
-        for stat in statistics:
-            selected_cols = feature_dict[share][stat]
+    model = VotingClassifier(
+        estimators=[
+            ("lr", lr_pipeline),
+            ("rf", rf_pipeline),
+            ("svm", svm_pipeline),
+            ("xgb", xgb_pipeline),
+        ],
+        voting="soft"
+    )
+    return model
 
-            rf_pipeline = Pipeline([
-                ('scaler', StandardScaler()),
-                ('rf',
-                 RandomForestClassifier(n_estimators=100, max_depth=3, min_samples_leaf=10, random_state=42, n_jobs=-1))
-            ])
 
-            svm_pipeline = Pipeline([
-                ('scaler', StandardScaler()),
-                ('svc', SVC(kernel='rbf', C=1.0, gamma='scale', probability=True, random_state=42)),
-            ])
 
-            xgb_pipeline = Pipeline([
-                ('scaler', StandardScaler()),
-                ('xgb',
-                 XGBClassifier(n_estimators=50, max_depth=4, learning_rate=0.1, eval_metric='logloss', random_state=42,
-                               n_jobs=-1)),
-            ])
+#### Walking Forward
 
-            main_model = VotingClassifier(
-                estimators=[('xgb', xgb_pipeline), ('svc', svm_pipeline), ('rf', rf_pipeline), ],
-                voting='soft')
+def walk_forward_validation(
+    df,
+    features,
+    target_col="Target",
+    date_col="DATE",
+    start_year=2010,
+    first_train_end_year=2015,
+    last_test_year=2023
+):
+    """
+    Train: start_year -> train_end_year
+    Test : train_end_year+1
+    """
+    df = df.copy()
+    df[date_col] = pd.to_datetime(df[date_col])
+    df = df.sort_values(date_col).reset_index(drop=True)
 
-            main_model.fit(X_train[selected_cols], y_train)
+    all_y_true = []
+    all_y_pred = []
+    all_y_proba = []
 
-            y_pred = main_model.predict(X_test[selected_cols])
-            acc = accuracy_score(y_test, y_pred)
-            precision = precision_score(y_test, y_pred)
-            recall = recall_score(y_test, y_pred)
-            roc_auc = roc_auc_score(y_test, y_pred)
-            print('*' * 40)
-            print(f"Results for {share} for best stat: {stat}:")
-            print("Accuracy:", acc)
-            print("Precision:", precision)
-            print("Recall:", recall)
-            print("ROC AUC score:", roc_auc)
-            result_dict[share][stat] = [acc, precision, recall, roc_auc]
-    return result_dict
+    fold_rows = []
+
+    for train_end_year in range(first_train_end_year, last_test_year):
+        test_year = train_end_year + 1
+
+        train_mask = (df[date_col].dt.year >= start_year) & (df[date_col].dt.year <= train_end_year)
+        test_mask = (df[date_col].dt.year == test_year)
+
+        train_df = df[train_mask]
+        test_df = df[test_mask]
+
+        # jeżeli jakiś rok nie ma danych to skip
+        if len(train_df) < 200 or len(test_df) < 50:
+            continue
+
+        X_train = train_df[features]
+        y_train = train_df[target_col]
+
+        X_test = test_df[features]
+        y_test = test_df[target_col]
+
+        model = build_ensemble_model()
+        model.fit(X_train, y_train)
+
+        y_pred = model.predict(X_test)
+        y_proba = model.predict_proba(X_test)[:, 1]  # ważne dla ROC-AUC
+
+        acc = accuracy_score(y_test, y_pred)
+        prec = precision_score(y_test, y_pred, zero_division=0)
+        rec = recall_score(y_test, y_pred, zero_division=0)
+        auc = roc_auc_score(y_test, y_proba)
+
+        fold_rows.append({
+            "train_end_year": train_end_year,
+            "test_year": test_year,
+            "n_train": len(train_df),
+            "n_test": len(test_df),
+            "accuracy": acc,
+            "precision": prec,
+            "recall": rec,
+            "roc_auc": auc
+        })
+
+        all_y_true.extend(y_test.tolist())
+        all_y_pred.extend(y_pred.tolist())
+        all_y_proba.extend(y_proba.tolist())
+
+    folds_df = pd.DataFrame(fold_rows)
+
+    return folds_df, np.array(all_y_true), np.array(all_y_pred), np.array(all_y_proba)
+
+
+### Block Bootstrap
+
+def block_bootstrap_accuracy(y_true, y_pred, block_size=20, n_bootstrap=1000, random_state=42):
+    """
+    Bootstrap na wynikach testowych (y_true/y_pred), losowanie blokami.
+    """
+    rng = np.random.default_rng(random_state)
+    n = len(y_true)
+
+    if n < block_size:
+        raise ValueError("Za mało danych do bootstrapa w tej konfiguracji.")
+
+    acc_samples = []
+
+    for _ in range(n_bootstrap):
+        sampled_idx = []
+
+        while len(sampled_idx) < n:
+            start = rng.integers(0, n - block_size + 1)
+            block = list(range(start, start + block_size))
+            sampled_idx.extend(block)
+
+        sampled_idx = sampled_idx[:n]
+        y_true_bs = y_true[sampled_idx]
+        y_pred_bs = y_pred[sampled_idx]
+
+        acc = accuracy_score(y_true_bs, y_pred_bs)
+        acc_samples.append(acc)
+
+    acc_samples = np.array(acc_samples)
+    ci_low = np.percentile(acc_samples, 2.5)
+    ci_high = np.percentile(acc_samples, 97.5)
+
+    return acc_samples, ci_low, ci_high
+
+
+### Walk forward + block bootstrap
+
+def run_stage4_for_ticker(df_raw, ticker, selected_features):
+    df = get_target(df_raw, ticker)
+
+    selected_features = [f for f in selected_features if f in df.columns]
+
+    folds_df, y_true_all, y_pred_all, y_proba_all = walk_forward_validation(
+        df=df,
+        features=selected_features,
+        target_col="Target",
+        date_col="DATE",
+        start_year=2010,
+        first_train_end_year=2015,
+        last_test_year=2023
+    )
+
+    print("=" * 60)
+    print(f" WALK-FORWARD RESULTS for {ticker}")
+    print(folds_df)
+
+    print("\n--- Summary ---")
+    print("Mean accuracy:", folds_df["accuracy"].mean())
+    print("Std  accuracy:", folds_df["accuracy"].std())
+    print("Mean roc_auc :", folds_df["roc_auc"].mean())
+
+    # Block Bootstrap
+    acc_samples, ci_low, ci_high = block_bootstrap_accuracy(
+        y_true=y_true_all,
+        y_pred=y_pred_all,
+        block_size=20,
+        n_bootstrap=1000
+    )
+
+    print("\n" + "=" * 60)
+    print(f" BLOCK BOOTSTRAP for {ticker}")
+    print(f"95% CI accuracy: [{ci_low:.4f}, {ci_high:.4f}]")
+    print(f"Bootstrap mean accuracy: {acc_samples.mean():.4f}")
+
+    return folds_df, acc_samples
+
 
 
 
