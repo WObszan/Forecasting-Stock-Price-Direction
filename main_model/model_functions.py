@@ -190,6 +190,24 @@ def build_ensemble_model():
     return model
 
 
+### Sample weights
+
+    def get_sample_weight(df, ticker, horizon=5):
+        # create a binary matrix indicating which days are covered by which barrier
+        num_rows = len(df)
+        concurrency = np.zeros(num_rows)
+
+        for i in range(num_rows - horizon):
+            concurrency[i  : i + horizon] += 1
+
+        uniqueness = 1.0 / np.maximum(concurrency, 1)
+
+        weights = pd.Series(index=df.index, dtype=float)
+        for i in range(num_rows - horizon):
+            weights.iloc[i] = uniqueness[i : i + horizon].mean()
+
+        return weights.fillna(0)
+
 
 #### Walking Forward
 
