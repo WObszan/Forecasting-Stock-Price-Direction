@@ -159,7 +159,7 @@ def best_features(data_dict, tickers):
             print(selected_features)
             feature_dict[share] = selected_features
 
-    with open("../models_results/feature_dict.json", "w") as f:
+    with open("../selected_features/feature_dict.json", "w") as f:
         json.dump(feature_dict, f, indent=4)
 
     return feature_dict
