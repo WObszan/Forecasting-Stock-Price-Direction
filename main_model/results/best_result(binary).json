@@ -1,0 +1,59 @@
+{
+  "AAPL": {
+    "AAPL": {
+      "summary": {
+        "accuracy": {
+          "Mean": 0.4906711073467468
+        },
+        "precision": {
+          "Mean": 0.493390549099343
+        },
+        "recall": {
+          "Mean": 0.4906711073467468
+        },
+        "roc_auc": {
+          "Mean": 0.4950982445883319
+        }
+      },
+      "Bootstrap mean accuracy": 0.49082071960297763
+    }
+  },
+  "MSFT": {
+    "MSFT": {
+      "summary": {
+        "accuracy": {
+          "Mean": 0.49865128234479944
+        },
+        "precision": {
+          "Mean": 0.5097323753358651
+        },
+        "recall": {
+          "Mean": 0.49865128234479944
+        },
+        "roc_auc": {
+          "Mean": 0.5330005226865104
+        }
+      },
+      "Bootstrap mean accuracy": 0.4989236972704715
+    }
+  },
+  "GOOGL": {
+    "GOOGL": {
+      "summary": {
+        "accuracy": {
+          "Mean": 0.49312489520402675
+        },
+        "precision": {
+          "Mean": 0.44922494886047737
+        },
+        "recall": {
+          "Mean": 0.49312489520402675
+        },
+        "roc_auc": {
+          "Mean": 0.5494325160618898
+        }
+      },
+      "Bootstrap mean accuracy": 0.49368796526054587
+    }
+  }
+}
