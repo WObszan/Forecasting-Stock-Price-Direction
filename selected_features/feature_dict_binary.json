@@ -1,0 +1,51 @@
+{
+    "AAPL": [
+        "RSI_14",
+        "MACDh_12_26_9",
+        "ATRr_14",
+        "BBB_20_2.0_2.0",
+        "BBP_20_2.0_2.0",
+        "DGS10",
+        "USEPUINDXD",
+        "VIX_percent",
+        "Is_Panic",
+        "Is_Calm",
+        "Is_Uncertain",
+        "log_return",
+        "cusum",
+        "cusum_pos",
+        "cusum_neg",
+        "anomaly_raw"
+    ],
+    "GOOGL": [
+        "RSI_14",
+        "MACDh_12_26_9",
+        "ATRr_14",
+        "BBB_20_2.0_2.0",
+        "BBP_20_2.0_2.0",
+        "DGS10",
+        "USEPUINDXD",
+        "VIX_percent",
+        "Is_Panic",
+        "Is_Calm",
+        "Is_Uncertain",
+        "log_return",
+        "cusum",
+        "cusum_pos",
+        "cusum_neg"
+    ],
+    "MSFT": [
+        "RSI_14",
+        "MACDh_12_26_9",
+        "ATRr_14",
+        "BBB_20_2.0_2.0",
+        "BBP_20_2.0_2.0",
+        "DGS10",
+        "USEPUINDXD",
+        "VIX_percent",
+        "log_return",
+        "cusum",
+        "cusum_pos",
+        "cusum_neg"
+    ]
+}
