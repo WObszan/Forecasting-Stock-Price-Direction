@@ -3,57 +3,57 @@
     "AAPL": {
       "summary": {
         "accuracy": {
-          "Mean": 0.5147901071630581
+          "Mean": 0.5322000865120333
         },
         "precision": {
-          "Mean": 0.5373272181844154
+          "Mean": 0.5481566726086438
         },
         "recall": {
-          "Mean": 0.6693518700663164
+          "Mean": 0.724477686208037
         },
         "roc_auc": {
-          "Mean": 0.5184352661835331
+          "Mean": 0.5209494589515509
         }
       },
-      "Bootstrap mean accuracy": 0.5160589330024814
+      "Bootstrap mean accuracy": 0.533955334987593
     }
   },
   "MSFT": {
     "MSFT": {
       "summary": {
         "accuracy": {
-          "Mean": 0.4955054632825241
+          "Mean": 0.49054874932754655
         },
         "precision": {
-          "Mean": 0.5637501498911918
+          "Mean": 0.553543226686691
         },
         "recall": {
-          "Mean": 0.4667997967427537
+          "Mean": 0.5034896305472898
         },
         "roc_auc": {
-          "Mean": 0.5138151720968844
+          "Mean": 0.5109978524356458
         }
       },
-      "Bootstrap mean accuracy": 0.4967276674937965
+      "Bootstrap mean accuracy": 0.49078908188585607
     }
   },
   "GOOGL": {
     "GOOGL": {
       "summary": {
         "accuracy": {
-          "Mean": 0.5005296344510195
+          "Mean": 0.49735266201791123
         },
         "precision": {
-          "Mean": 0.4605049675673882
+          "Mean": 0.519063818951097
         },
         "recall": {
-          "Mean": 0.6197629361505003
+          "Mean": 0.6278501304445198
         },
         "roc_auc": {
-          "Mean": 0.5208956994127449
+          "Mean": 0.5157093949527092
         }
       },
-      "Bootstrap mean accuracy": 0.4992934243176178
+      "Bootstrap mean accuracy": 0.4967915632754342
     }
   }
 }

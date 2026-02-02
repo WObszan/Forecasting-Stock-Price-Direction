@@ -3,57 +3,57 @@
     "AAPL": {
       "summary": {
         "accuracy": {
-          "Mean": 0.4532683564933951
+          "Mean": 0.4180535399139502
         },
         "precision": {
-          "Mean": 0.37771858007147696
+          "Mean": 0.44750102498702626
         },
         "recall": {
-          "Mean": 0.4532683564933951
+          "Mean": 0.4180535399139502
         },
         "roc_auc": {
-          "Mean": 0.5477819453168633
+          "Mean": 0.5472067466260702
         }
       },
-      "Bootstrap mean accuracy": 0.4502983870967743
-    }
-  },
-  "GOOGL": {
-    "GOOGL": {
-      "summary": {
-        "accuracy": {
-          "Mean": 0.3603835396130599
-        },
-        "precision": {
-          "Mean": 0.3078346473589781
-        },
-        "recall": {
-          "Mean": 0.3603835396130599
-        },
-        "roc_auc": {
-          "Mean": 0.5910513807093309
-        }
-      },
-      "Bootstrap mean accuracy": 0.3618281637717122
+      "Bootstrap mean accuracy": 0.41554776674937965
     }
   },
   "MSFT": {
     "MSFT": {
       "summary": {
         "accuracy": {
-          "Mean": 0.3850841637542182
+          "Mean": 0.42169590474322044
         },
         "precision": {
-          "Mean": 0.3429383367383871
+          "Mean": 0.43710801015506845
         },
         "recall": {
-          "Mean": 0.3850841637542182
+          "Mean": 0.42169590474322044
         },
         "roc_auc": {
-          "Mean": 0.5705716760544024
+          "Mean": 0.5913485963441807
         }
       },
-      "Bootstrap mean accuracy": 0.38551985111662534
+      "Bootstrap mean accuracy": 0.42015012406947894
+    }
+  },
+  "GOOGL": {
+    "GOOGL": {
+      "summary": {
+        "accuracy": {
+          "Mean": 0.4223705903189025
+        },
+        "precision": {
+          "Mean": 0.4559153763396593
+        },
+        "recall": {
+          "Mean": 0.4223705903189025
+        },
+        "roc_auc": {
+          "Mean": 0.5943802281778757
+        }
+      },
+      "Bootstrap mean accuracy": 0.4240614143920595
     }
   }
 }
