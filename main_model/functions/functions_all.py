@@ -236,6 +236,8 @@ def walk_forward_validation_with_purging(
     last_test_year=2023,
     horizon = 5,
     embargo_pct = 0.01,
+    ticker = None,
+    save_path = None
 ):
 
     df = df.copy()
@@ -245,6 +247,10 @@ def walk_forward_validation_with_purging(
     all_y_true = []
     all_y_pred = []
     all_y_proba = []
+
+    all_dates = []
+    all_returns = []
+    all_closes = []
 
     fold_rows = []
 
@@ -321,8 +327,39 @@ def walk_forward_validation_with_purging(
         all_y_true.extend(y_test.tolist())
         all_y_pred.extend(y_pred.tolist())
         all_y_proba.extend(y_proba.tolist())
+        all_dates.extend(test_df_embargo[date_col].values)
+
+        if 'log_return' in test_df_embargo.columns:
+            all_returns.extend(test_df_embargo['log_return'].values)
+        else:
+            all_returns.extend([0] * len(test_df_embargo))
+
+        if ticker and f'Close_{ticker}' in test_df_embargo.columns:
+            all_closes.extend(test_df_embargo[f'Close_{ticker}'].values)
+        else:
+            all_closes.extend([0] * len(test_df_embargo))
 
     folds_df = pd.DataFrame(fold_rows)
+
+    if save_path is not None:
+        detailed_df = pd.DataFrame({
+            'Date': all_dates,
+            'Actual': all_y_true,
+            'Predicted': all_y_pred,
+            'Log_Return': all_returns,
+            'Close': all_closes
+        })
+        try:
+            proba_arr = np.array(all_y_proba)
+            if len(proba_arr.shape) > 1:  # Multiclass
+                for i in range(proba_arr.shape[1]):
+                    detailed_df[f'Proba_{i}'] = proba_arr[:, i]
+            else:  # Binary
+                detailed_df['Proba'] = proba_arr
+        except:
+            detailed_df['Proba'] = [str(x) for x in all_y_proba]
+
+        detailed_df.to_csv(save_path, index=False)
 
     return folds_df, np.array(all_y_true), np.array(all_y_pred), np.array(all_y_proba)
 
@@ -359,7 +396,7 @@ def block_bootstrap_accuracy(y_true, y_pred, block_size=20, n_bootstrap=1000, ra
 
 
 # Walk_forward + Bootstrap
-def run_stage4_for_ticker(df_raw, ticker, selected_features, model_version, target_type):
+def run_stage4_for_ticker(df_raw, ticker, selected_features, model_version, target_type, save_detailed_results=False):
     if target_type == "tbm":
         df = get_tbm_target(df_raw, ticker)
     elif target_type == "binary":
@@ -367,6 +404,10 @@ def run_stage4_for_ticker(df_raw, ticker, selected_features, model_version, targ
     result = {}
 
     selected_features = [f for f in selected_features if f in df.columns]
+
+    save_path = None
+    if save_detailed_results:
+        save_path = f'../models_results/detailed_res_{ticker}_{target_type}.csv'
 
     folds_df, y_true_all, y_pred_all, y_proba_all = walk_forward_validation_with_purging(
         df=df,
@@ -377,7 +418,9 @@ def run_stage4_for_ticker(df_raw, ticker, selected_features, model_version, targ
         date_col="DATE",
         start_year=2010,
         first_train_end_year=2015,
-        last_test_year=2023 
+        last_test_year=2023,
+        ticker=ticker,
+        save_path=save_path,
     )
 
     print("=" * 60)
