@@ -28,7 +28,6 @@
         "VIX_percent",
         "Is_Panic",
         "Is_Calm",
-        "Is_Uncertain",
         "log_return",
         "cusum",
         "cusum_pos",

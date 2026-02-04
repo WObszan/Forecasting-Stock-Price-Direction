@@ -60,11 +60,23 @@ def get_tbm_target(df, ticker, horizon=5, pt_sl=[1.3,1]):
 
 
 # Target Binary
-def get_target(input_df, ticker):
+def get_target(input_df, ticker, vol_window=20, barrier_std=0.5):
     df = input_df.copy()
-    df["Target"] = (df[f"Close_{ticker}"].shift(-1) > df[f"Close_{ticker}"]).astype(int)
-    df.dropna(inplace=True)
-    return df
+    close = df[f"Close_{ticker}"]
+    log_ret = np.log(close / close.shift(1))
+    volatility = log_ret.rolling(window=vol_window).std()
+
+    future_return = np.log(close.shift(-1) / close)
+
+    threshold = volatility * barrier_std
+
+    targets = pd.Series(np.nan, index=df.index)
+    targets[future_return > threshold] = 1
+
+    targets[future_return < -threshold] = 0
+
+    df["Target"] = targets
+    return df.dropna(subset=["Target"])
 
 
 # Model: Ensemble (Voting Soft)
@@ -202,7 +214,7 @@ def build_ensemble_model_vote(X_train, y_train):
             ("svm", svm_pipeline),
             ("xgb", xgb_pipeline),
         ],
-        voting="soft"
+        voting="hard"
     )
     return model
 
