@@ -1,5 +1,5 @@
 {
-    "AAPL": [
+     "AAPL": [
         "RSI_14",
         "MACDh_12_26_9",
         "ATRr_14",
@@ -15,8 +15,7 @@
         "cusum",
         "cusum_pos",
         "cusum_neg",
-        "anomaly_raw",
-        "is_anomaly"
+        "anomaly_raw"
     ],
     "GOOGL": [
         "RSI_14",
