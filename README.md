@@ -71,11 +71,6 @@ The model performance is evaluated using accuracy, precision, recall, and ROC-AU
 * **NLP:** `transformers` (Hugging Face), `vaderSentiment`
 * **Visualization:** `matplotlib`, `seaborn`
 
-## 7. Future Work
-* Implementation of Deep Learning architectures (LSTM/GRU) to explicitly model sequential dependencies.
-* Expansion of the asset universe to include non-tech sectors.
-* Integration of alternative data sources (e.g., social media sentiment volume).
-
 ---
 **License:** MIT
 
