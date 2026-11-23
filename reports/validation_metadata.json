@@ -1,0 +1,551 @@
+{
+  "aapl_binary": {
+    "created_at_utc": "20261123T134434165879Z",
+    "arguments": {
+      "ticker": "AAPL",
+      "models": [
+        "lr",
+        "rf",
+        "svm",
+        "xgb",
+        "ensemble",
+        "majority",
+        "always_up",
+        "random"
+      ],
+      "target": "binary",
+      "data_dir": "data/raw/prices",
+      "output_dir": "reports/runs/final_aapl_binary",
+      "start_year": 2010,
+      "first_train_end_year": 2015,
+      "last_test_year": 2023,
+      "gap": 0,
+      "horizon": 5,
+      "barrier_std": 0,
+      "select_k": null,
+      "tuning_trials": 0,
+      "seed": 42
+    },
+    "versions": {
+      "python": "3.13.18",
+      "stock-direction": "0.1.0",
+      "numpy": "2.5.5",
+      "pandas": "3.1.1",
+      "scikit-learn": "1.9.1",
+      "xgboost": "3.4.1",
+      "optuna": "4.9.0"
+    },
+    "git": {
+      "commit": "10c364b99047e66250c43db57255e894be57d5e3",
+      "dirty": true
+    },
+    "input_sha256": "b11b4c939e535725227feedadd21886a275dafebf0238d64157249a727639a28",
+    "features": [
+      "log_return",
+      "return_lag1",
+      "return_lag2",
+      "return_5",
+      "return_20",
+      "volatility_20",
+      "intraday_return",
+      "overnight_return",
+      "range_pct",
+      "volume_change",
+      "relative_volume_20",
+      "rsi_14",
+      "macd_pct",
+      "macd_hist_pct",
+      "bollinger_position_20",
+      "distance_sma_20",
+      "distance_sma_60",
+      "distance_high_20",
+      "distance_low_20",
+      "cusum",
+      "cusum_pos",
+      "cusum_neg",
+      "return_zscore_20"
+    ],
+    "class_order": [
+      0,
+      1
+    ],
+    "decision_time": "After session close; next-session close classification only",
+    "conditional_evaluation": false,
+    "macro_included": false,
+    "bootstrap": {
+      "block_size": 20,
+      "n_bootstrap": 1000,
+      "seed": 42
+    },
+    "not_a_trading_backtest": true,
+    "source_sha256": {
+      "__init__.py": "6627eb8d9b056ac9e245e46ef2a5780f066b0223accf1076f5c5f4719540abe4",
+      "__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+      "cli.py": "1ee6a0b4397174e6e0f004bdcdcdf829c249b8cb6282a59a90da9ec884c46cfb",
+      "data.py": "20b1f8035576a6327d286808dc1730304917d689135909c135e0b37c60b078a1",
+      "features.py": "ed1ab75a4695eb286383eacc1ba2a00b02452066510ea29ae1a28219a08a2f12",
+      "models.py": "483354493f28455ade1f2433a482974beea14d1818a0a706c005f897d9fed781",
+      "targets.py": "107fcc7baae1efe13117263bc26de5711c5f4b9d0dc0de3d0d368055c1daa9a5",
+      "tuning.py": "96a64a27199746f484700ede52caf61b0731b0245ad094fc9e7238b87a2b77c4",
+      "validation.py": "209b22a1b090137da7b3dc3f615b326889d48326c53d96c3bedc7044b6c8527d"
+    }
+  },
+  "aapl_tbm": {
+    "created_at_utc": "20261123T134452919034Z",
+    "arguments": {
+      "ticker": "AAPL",
+      "models": [
+        "lr",
+        "rf",
+        "svm",
+        "xgb",
+        "ensemble",
+        "majority",
+        "always_up",
+        "random"
+      ],
+      "target": "tbm",
+      "data_dir": "data/raw/prices",
+      "output_dir": "reports/runs/final_aapl_tbm",
+      "start_year": 2010,
+      "first_train_end_year": 2015,
+      "last_test_year": 2023,
+      "gap": 0,
+      "horizon": 5,
+      "barrier_std": 0,
+      "select_k": null,
+      "tuning_trials": 0,
+      "seed": 42
+    },
+    "versions": {
+      "python": "3.13.18",
+      "stock-direction": "0.1.0",
+      "numpy": "2.5.5",
+      "pandas": "3.1.1",
+      "scikit-learn": "1.9.1",
+      "xgboost": "3.4.1",
+      "optuna": "4.9.0"
+    },
+    "git": {
+      "commit": "10c364b99047e66250c43db57255e894be57d5e3",
+      "dirty": true
+    },
+    "input_sha256": "b11b4c939e535725227feedadd21886a275dafebf0238d64157249a727639a28",
+    "features": [
+      "log_return",
+      "return_lag1",
+      "return_lag2",
+      "return_5",
+      "return_20",
+      "volatility_20",
+      "intraday_return",
+      "overnight_return",
+      "range_pct",
+      "volume_change",
+      "relative_volume_20",
+      "rsi_14",
+      "macd_pct",
+      "macd_hist_pct",
+      "bollinger_position_20",
+      "distance_sma_20",
+      "distance_sma_60",
+      "distance_high_20",
+      "distance_low_20",
+      "cusum",
+      "cusum_pos",
+      "cusum_neg",
+      "return_zscore_20"
+    ],
+    "class_order": [
+      -1,
+      0,
+      1
+    ],
+    "decision_time": "After session close; next-session close classification only",
+    "conditional_evaluation": false,
+    "macro_included": false,
+    "bootstrap": {
+      "block_size": 20,
+      "n_bootstrap": 1000,
+      "seed": 42
+    },
+    "not_a_trading_backtest": true,
+    "source_sha256": {
+      "__init__.py": "6627eb8d9b056ac9e245e46ef2a5780f066b0223accf1076f5c5f4719540abe4",
+      "__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+      "cli.py": "1ee6a0b4397174e6e0f004bdcdcdf829c249b8cb6282a59a90da9ec884c46cfb",
+      "data.py": "20b1f8035576a6327d286808dc1730304917d689135909c135e0b37c60b078a1",
+      "features.py": "ed1ab75a4695eb286383eacc1ba2a00b02452066510ea29ae1a28219a08a2f12",
+      "models.py": "483354493f28455ade1f2433a482974beea14d1818a0a706c005f897d9fed781",
+      "targets.py": "107fcc7baae1efe13117263bc26de5711c5f4b9d0dc0de3d0d368055c1daa9a5",
+      "tuning.py": "96a64a27199746f484700ede52caf61b0731b0245ad094fc9e7238b87a2b77c4",
+      "validation.py": "209b22a1b090137da7b3dc3f615b326889d48326c53d96c3bedc7044b6c8527d"
+    }
+  },
+  "googl_binary": {
+    "created_at_utc": "20261123T134434166174Z",
+    "arguments": {
+      "ticker": "GOOGL",
+      "models": [
+        "lr",
+        "rf",
+        "svm",
+        "xgb",
+        "ensemble",
+        "majority",
+        "always_up",
+        "random"
+      ],
+      "target": "binary",
+      "data_dir": "data/raw/prices",
+      "output_dir": "reports/runs/final_googl_binary",
+      "start_year": 2010,
+      "first_train_end_year": 2015,
+      "last_test_year": 2023,
+      "gap": 0,
+      "horizon": 5,
+      "barrier_std": 0,
+      "select_k": null,
+      "tuning_trials": 0,
+      "seed": 42
+    },
+    "versions": {
+      "python": "3.13.18",
+      "stock-direction": "0.1.0",
+      "numpy": "2.5.5",
+      "pandas": "3.1.1",
+      "scikit-learn": "1.9.1",
+      "xgboost": "3.4.1",
+      "optuna": "4.9.0"
+    },
+    "git": {
+      "commit": "10c364b99047e66250c43db57255e894be57d5e3",
+      "dirty": true
+    },
+    "input_sha256": "08acef7b8c8fef6d2a4221d7c69185b3c99fc2d496af400b8b1192b54b5337d3",
+    "features": [
+      "log_return",
+      "return_lag1",
+      "return_lag2",
+      "return_5",
+      "return_20",
+      "volatility_20",
+      "intraday_return",
+      "overnight_return",
+      "range_pct",
+      "volume_change",
+      "relative_volume_20",
+      "rsi_14",
+      "macd_pct",
+      "macd_hist_pct",
+      "bollinger_position_20",
+      "distance_sma_20",
+      "distance_sma_60",
+      "distance_high_20",
+      "distance_low_20",
+      "cusum",
+      "cusum_pos",
+      "cusum_neg",
+      "return_zscore_20"
+    ],
+    "class_order": [
+      0,
+      1
+    ],
+    "decision_time": "After session close; next-session close classification only",
+    "conditional_evaluation": false,
+    "macro_included": false,
+    "bootstrap": {
+      "block_size": 20,
+      "n_bootstrap": 1000,
+      "seed": 42
+    },
+    "not_a_trading_backtest": true,
+    "source_sha256": {
+      "__init__.py": "6627eb8d9b056ac9e245e46ef2a5780f066b0223accf1076f5c5f4719540abe4",
+      "__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+      "cli.py": "1ee6a0b4397174e6e0f004bdcdcdf829c249b8cb6282a59a90da9ec884c46cfb",
+      "data.py": "20b1f8035576a6327d286808dc1730304917d689135909c135e0b37c60b078a1",
+      "features.py": "ed1ab75a4695eb286383eacc1ba2a00b02452066510ea29ae1a28219a08a2f12",
+      "models.py": "483354493f28455ade1f2433a482974beea14d1818a0a706c005f897d9fed781",
+      "targets.py": "107fcc7baae1efe13117263bc26de5711c5f4b9d0dc0de3d0d368055c1daa9a5",
+      "tuning.py": "96a64a27199746f484700ede52caf61b0731b0245ad094fc9e7238b87a2b77c4",
+      "validation.py": "209b22a1b090137da7b3dc3f615b326889d48326c53d96c3bedc7044b6c8527d"
+    }
+  },
+  "googl_tbm": {
+    "created_at_utc": "20261123T134452655360Z",
+    "arguments": {
+      "ticker": "GOOGL",
+      "models": [
+        "lr",
+        "rf",
+        "svm",
+        "xgb",
+        "ensemble",
+        "majority",
+        "always_up",
+        "random"
+      ],
+      "target": "tbm",
+      "data_dir": "data/raw/prices",
+      "output_dir": "reports/runs/final_googl_tbm",
+      "start_year": 2010,
+      "first_train_end_year": 2015,
+      "last_test_year": 2023,
+      "gap": 0,
+      "horizon": 5,
+      "barrier_std": 0,
+      "select_k": null,
+      "tuning_trials": 0,
+      "seed": 42
+    },
+    "versions": {
+      "python": "3.13.18",
+      "stock-direction": "0.1.0",
+      "numpy": "2.5.5",
+      "pandas": "3.1.1",
+      "scikit-learn": "1.9.1",
+      "xgboost": "3.4.1",
+      "optuna": "4.9.0"
+    },
+    "git": {
+      "commit": "10c364b99047e66250c43db57255e894be57d5e3",
+      "dirty": true
+    },
+    "input_sha256": "08acef7b8c8fef6d2a4221d7c69185b3c99fc2d496af400b8b1192b54b5337d3",
+    "features": [
+      "log_return",
+      "return_lag1",
+      "return_lag2",
+      "return_5",
+      "return_20",
+      "volatility_20",
+      "intraday_return",
+      "overnight_return",
+      "range_pct",
+      "volume_change",
+      "relative_volume_20",
+      "rsi_14",
+      "macd_pct",
+      "macd_hist_pct",
+      "bollinger_position_20",
+      "distance_sma_20",
+      "distance_sma_60",
+      "distance_high_20",
+      "distance_low_20",
+      "cusum",
+      "cusum_pos",
+      "cusum_neg",
+      "return_zscore_20"
+    ],
+    "class_order": [
+      -1,
+      0,
+      1
+    ],
+    "decision_time": "After session close; next-session close classification only",
+    "conditional_evaluation": false,
+    "macro_included": false,
+    "bootstrap": {
+      "block_size": 20,
+      "n_bootstrap": 1000,
+      "seed": 42
+    },
+    "not_a_trading_backtest": true,
+    "source_sha256": {
+      "__init__.py": "6627eb8d9b056ac9e245e46ef2a5780f066b0223accf1076f5c5f4719540abe4",
+      "__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+      "cli.py": "1ee6a0b4397174e6e0f004bdcdcdf829c249b8cb6282a59a90da9ec884c46cfb",
+      "data.py": "20b1f8035576a6327d286808dc1730304917d689135909c135e0b37c60b078a1",
+      "features.py": "ed1ab75a4695eb286383eacc1ba2a00b02452066510ea29ae1a28219a08a2f12",
+      "models.py": "483354493f28455ade1f2433a482974beea14d1818a0a706c005f897d9fed781",
+      "targets.py": "107fcc7baae1efe13117263bc26de5711c5f4b9d0dc0de3d0d368055c1daa9a5",
+      "tuning.py": "96a64a27199746f484700ede52caf61b0731b0245ad094fc9e7238b87a2b77c4",
+      "validation.py": "209b22a1b090137da7b3dc3f615b326889d48326c53d96c3bedc7044b6c8527d"
+    }
+  },
+  "msft_binary": {
+    "created_at_utc": "20261123T134434278057Z",
+    "arguments": {
+      "ticker": "MSFT",
+      "models": [
+        "lr",
+        "rf",
+        "svm",
+        "xgb",
+        "ensemble",
+        "majority",
+        "always_up",
+        "random"
+      ],
+      "target": "binary",
+      "data_dir": "data/raw/prices",
+      "output_dir": "reports/runs/final_msft_binary",
+      "start_year": 2010,
+      "first_train_end_year": 2015,
+      "last_test_year": 2023,
+      "gap": 0,
+      "horizon": 5,
+      "barrier_std": 0,
+      "select_k": null,
+      "tuning_trials": 0,
+      "seed": 42
+    },
+    "versions": {
+      "python": "3.13.18",
+      "stock-direction": "0.1.0",
+      "numpy": "2.5.5",
+      "pandas": "3.1.1",
+      "scikit-learn": "1.9.1",
+      "xgboost": "3.4.1",
+      "optuna": "4.9.0"
+    },
+    "git": {
+      "commit": "10c364b99047e66250c43db57255e894be57d5e3",
+      "dirty": true
+    },
+    "input_sha256": "b48dca6651a26521f4963569a0e8869b1b75688ed44f591247a3536afeb9ffc4",
+    "features": [
+      "log_return",
+      "return_lag1",
+      "return_lag2",
+      "return_5",
+      "return_20",
+      "volatility_20",
+      "intraday_return",
+      "overnight_return",
+      "range_pct",
+      "volume_change",
+      "relative_volume_20",
+      "rsi_14",
+      "macd_pct",
+      "macd_hist_pct",
+      "bollinger_position_20",
+      "distance_sma_20",
+      "distance_sma_60",
+      "distance_high_20",
+      "distance_low_20",
+      "cusum",
+      "cusum_pos",
+      "cusum_neg",
+      "return_zscore_20"
+    ],
+    "class_order": [
+      0,
+      1
+    ],
+    "decision_time": "After session close; next-session close classification only",
+    "conditional_evaluation": false,
+    "macro_included": false,
+    "bootstrap": {
+      "block_size": 20,
+      "n_bootstrap": 1000,
+      "seed": 42
+    },
+    "not_a_trading_backtest": true,
+    "source_sha256": {
+      "__init__.py": "6627eb8d9b056ac9e245e46ef2a5780f066b0223accf1076f5c5f4719540abe4",
+      "__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+      "cli.py": "1ee6a0b4397174e6e0f004bdcdcdf829c249b8cb6282a59a90da9ec884c46cfb",
+      "data.py": "20b1f8035576a6327d286808dc1730304917d689135909c135e0b37c60b078a1",
+      "features.py": "ed1ab75a4695eb286383eacc1ba2a00b02452066510ea29ae1a28219a08a2f12",
+      "models.py": "483354493f28455ade1f2433a482974beea14d1818a0a706c005f897d9fed781",
+      "targets.py": "107fcc7baae1efe13117263bc26de5711c5f4b9d0dc0de3d0d368055c1daa9a5",
+      "tuning.py": "96a64a27199746f484700ede52caf61b0731b0245ad094fc9e7238b87a2b77c4",
+      "validation.py": "209b22a1b090137da7b3dc3f615b326889d48326c53d96c3bedc7044b6c8527d"
+    }
+  },
+  "msft_tbm": {
+    "created_at_utc": "20261123T134452194768Z",
+    "arguments": {
+      "ticker": "MSFT",
+      "models": [
+        "lr",
+        "rf",
+        "svm",
+        "xgb",
+        "ensemble",
+        "majority",
+        "always_up",
+        "random"
+      ],
+      "target": "tbm",
+      "data_dir": "data/raw/prices",
+      "output_dir": "reports/runs/final_msft_tbm",
+      "start_year": 2010,
+      "first_train_end_year": 2015,
+      "last_test_year": 2023,
+      "gap": 0,
+      "horizon": 5,
+      "barrier_std": 0,
+      "select_k": null,
+      "tuning_trials": 0,
+      "seed": 42
+    },
+    "versions": {
+      "python": "3.13.18",
+      "stock-direction": "0.1.0",
+      "numpy": "2.5.5",
+      "pandas": "3.1.1",
+      "scikit-learn": "1.9.1",
+      "xgboost": "3.4.1",
+      "optuna": "4.9.0"
+    },
+    "git": {
+      "commit": "10c364b99047e66250c43db57255e894be57d5e3",
+      "dirty": true
+    },
+    "input_sha256": "b48dca6651a26521f4963569a0e8869b1b75688ed44f591247a3536afeb9ffc4",
+    "features": [
+      "log_return",
+      "return_lag1",
+      "return_lag2",
+      "return_5",
+      "return_20",
+      "volatility_20",
+      "intraday_return",
+      "overnight_return",
+      "range_pct",
+      "volume_change",
+      "relative_volume_20",
+      "rsi_14",
+      "macd_pct",
+      "macd_hist_pct",
+      "bollinger_position_20",
+      "distance_sma_20",
+      "distance_sma_60",
+      "distance_high_20",
+      "distance_low_20",
+      "cusum",
+      "cusum_pos",
+      "cusum_neg",
+      "return_zscore_20"
+    ],
+    "class_order": [
+      -1,
+      0,
+      1
+    ],
+    "decision_time": "After session close; next-session close classification only",
+    "conditional_evaluation": false,
+    "macro_included": false,
+    "bootstrap": {
+      "block_size": 20,
+      "n_bootstrap": 1000,
+      "seed": 42
+    },
+    "not_a_trading_backtest": true,
+    "source_sha256": {
+      "__init__.py": "6627eb8d9b056ac9e245e46ef2a5780f066b0223accf1076f5c5f4719540abe4",
+      "__main__.py": "935a1c1166b0c1ea35a82256345000bf2c73ded718d77773bc27a71ecce28f7d",
+      "cli.py": "1ee6a0b4397174e6e0f004bdcdcdf829c249b8cb6282a59a90da9ec884c46cfb",
+      "data.py": "20b1f8035576a6327d286808dc1730304917d689135909c135e0b37c60b078a1",
+      "features.py": "ed1ab75a4695eb286383eacc1ba2a00b02452066510ea29ae1a28219a08a2f12",
+      "models.py": "483354493f28455ade1f2433a482974beea14d1818a0a706c005f897d9fed781",
+      "targets.py": "107fcc7baae1efe13117263bc26de5711c5f4b9d0dc0de3d0d368055c1daa9a5",
+      "tuning.py": "96a64a27199746f484700ede52caf61b0731b0245ad094fc9e7238b87a2b77c4",
+      "validation.py": "209b22a1b090137da7b3dc3f615b326889d48326c53d96c3bedc7044b6c8527d"
+    }
+  }
+}

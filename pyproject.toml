@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stock-direction"
+version = "0.1.0"
+description = "Reproducible time-ordered stock direction experiments"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy>=1.26,<3",
+    "pandas>=2.2,<4",
+    "scikit-learn>=1.5,<2",
+]
+
+[project.optional-dependencies]
+boosting = ["xgboost>=2.1,<4"]
+tuning = ["optuna>=4,<5"]
+notebooks = ["jupyterlab>=4,<5", "matplotlib>=3.9,<4", "seaborn>=0.13,<1"]
+dev = ["pytest>=8,<10", "ruff>=0.11,<1"]
+news = ["vaderSentiment>=3.3.2,<4", "exchange-calendars>=4.5,<5"]
+news-download = ["pyarrow>=18,<25", "fsspec[http]>=2024.10"]
+
+[project.scripts]
+stock-direction = "stock_direction.cli:main"
+stock-news = "stock_direction.news_cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+extend-exclude = ["notebooks/legacy"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
